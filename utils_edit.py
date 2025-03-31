@@ -47,7 +47,7 @@ class ImmutableState:
             output = "".join([str(i) for i in self.prev_local_action])
         else:
             output = "33"
-        return output + "".join([str(self.board[i][j][k][l]) for i,j,k,l in itertools.product(range(3), repeat=4)])
+        return str(self.fill_num) + output + "".join([str(self.board[i][j][k][l]) for i,j,k,l in itertools.product(range(3), repeat=4)])
     
     def __hash__(self):
         return hash(str(self.board))
