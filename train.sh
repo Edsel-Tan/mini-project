@@ -6,7 +6,9 @@
 #SBATCH --mem=8gb
 #SBATCH --gpus=h100-96
 #SBATCH --time=00:30:00
+#SBATCH -x xgpi0
 #SBATCH --output=result.slurmlog
 #SBATCH --error=result.slurmlog
 
-python3 model.py
+echo Allocated.
+python3 train.py
