@@ -11,7 +11,7 @@ dataset = BoardDataset()
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
 print(f"Using {device} device")
 
-train_size = int(0.9 * len(dataset))
+train_size = int(0.8 * len(dataset))
 test_size = len(dataset) - train_size
 
 train, test = random_split(dataset, [train_size, test_size])
