@@ -5,8 +5,8 @@ import os
 
 os.sched_setaffinity(0, range(os.cpu_count()))
 
-NUM_NODES = 20000
-NUM_GAMES = 50
+NUM_NODES = 2500
+NUM_GAMES = 100
 THRESHOLD = 0
 NUM_PROCESSES = 16
 data = [dict() for _ in range(NUM_PROCESSES)]
@@ -29,7 +29,7 @@ def generate_train(states, idx):
     data = {}
     np.random.seed(idx)
     for n,s in enumerate(states):
-        if n % 1000 == 0:
+        if n % 100 == 0:
             print(f"Thread {idx} has completed {n} nodes.", flush=True)
         fill_num = int(s[0])
         prev_local_action = (int(s[1]), int(s[2]))
@@ -73,17 +73,19 @@ def collate(dic1, dic2):
             dic[i][j] += dic2[i][j]
     return dic
 
+SECTION = 1
 
 if __name__ == "__main__":
     random.seed(42)
     with open("datagen/data.out", 'r') as file:
         d = file.readlines()
     
+    random.shuffle(d)
     pool = multiprocessing.Pool(processes = NUM_PROCESSES)
-    samples = random.sample(d, NUM_NODES * NUM_PROCESSES)
+    samples = d[SECTION * NUM_PROCESSES * NUM_NODES:]
     data = pool.starmap(generate_train, zip([samples[i*NUM_NODES:(i+1)*NUM_NODES] for i in range(NUM_PROCESSES)], range(NUM_PROCESSES)))
 
-    with open("datagen/train.out", "w+") as file:
+    with open(f"datagen/train{SECTION}.out", "w+") as file:
         file.write("\n".join(data))
 
     print("Done!")
