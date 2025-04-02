@@ -5,13 +5,10 @@ from torch import tensor
 from torch import nn
 from collections import OrderedDict
 import numpy as np
-import os
-
-os.environ["CUDA_VISIBLE_DEVICES"]=""
 
 # from dummy import StudentAgent
 from submission import StudentAgent
-from submission_2 import StudentAgent2
+from submission_2 import StudentAgent as StudentAgent2
 
 def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
     timeout_count = 0

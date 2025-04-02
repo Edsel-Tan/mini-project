@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, random_split
-from model import NN, BoardDataset
+from model_2 import NN, BoardDataset
 
 import os
 os.sched_setaffinity(0, range(os.cpu_count()))
@@ -66,6 +66,7 @@ epochs = 50
 patience = 0
 best_loss = float('inf')
 
+test(test_dataloader, model, criterion)
 for t in range(epochs):
     print(f"Epoch {t+1}\n-------------------------------", flush = True)
     train_loss = train(train_dataloader, model, criterion, optimizer)
