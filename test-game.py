@@ -7,11 +7,9 @@ from collections import OrderedDict
 import numpy as np
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"]=""
-
 # from dummy import StudentAgent
 from submission import StudentAgent
-from submission_2 import StudentAgent2
+from submission_2 import StudentAgent as StudentAgent2
 
 def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
     timeout_count = 0
@@ -22,7 +20,6 @@ def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
     while not state.is_terminal():
         turn_count += 1
         print(f"Starting turn {turn_count}")
-        print(state, flush=True)
         random_action = state.get_random_valid_action()
         if state.fill_num == 2:
             start_time = time.time()
@@ -55,7 +52,7 @@ def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
         print("Draw")
     print(f"Timeout count: {timeout_count}")
     print(f"Invalid count: {invalid_count}")
-    print(action[0])
+    print(actions[0])
 
 your_agent = StudentAgent()
 random_agent = StudentAgent2()
