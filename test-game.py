@@ -53,8 +53,8 @@ def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
     print(f"Invalid count: {invalid_count}")
     print(action[0])
 
-your_agent = StudentAgent(2)
-random_agent = StudentAgent(4)
+your_agent = StudentAgent()
+random_agent = StudentAgent2()
 
 run(your_agent, random_agent, 1)
 run(your_agent, random_agent, 2)
