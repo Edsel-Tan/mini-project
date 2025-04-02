@@ -5,7 +5,6 @@ from torch import tensor
 from torch import nn
 from collections import OrderedDict
 import numpy as np
-import os
 
 # from dummy import StudentAgent
 from submission import StudentAgent
