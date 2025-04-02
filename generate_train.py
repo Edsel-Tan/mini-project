@@ -5,21 +5,31 @@ import os
 
 os.sched_setaffinity(0, range(os.cpu_count()))
 
-NUM_NODES = 50
-NUM_GAMES = 100
-THRESHOLD = 50
+NUM_NODES = 20000
+NUM_GAMES = 50
+THRESHOLD = 0
 NUM_PROCESSES = 16
-# NUM_NODES = 1
-# NUM_GAMES = 10
-# THRESHOLD = 5
-# NUM_PROCESSES = 16
 data = [dict() for _ in range(NUM_PROCESSES)]
+
+class Node:
+    def __init__(self, state):
+        self.state = state
+        self.actions = state.get_all_valid_actions()
+        self.children = {}
+
+    def get_random_valid_action(self):
+        return self.actions[np.random.randint(len(self.actions))]
+
+    def move(self, action):
+        if action not in self.children:
+            self.children[action] = Node(self.state.change_state(action))
+        return self.children[action]
 
 def generate_train(states, idx):
     data = {}
     np.random.seed(idx)
     for n,s in enumerate(states):
-        if n % 10 == 0:
+        if n % 1000 == 0:
             print(f"Thread {idx} has completed {n} nodes.", flush=True)
         fill_num = int(s[0])
         prev_local_action = (int(s[1]), int(s[2]))
@@ -32,25 +42,22 @@ def generate_train(states, idx):
                     for l in range(3):
                         board[i][j][k][l] = int(s[3+l+k*3+j*9+i*27])
         s = State(board=board, fill_num=fill_num, prev_local_action=prev_local_action)
+        data[s] = [0,0,0]
         for _ in range(NUM_GAMES):
-            q = [s]
-            current = s
-            while not current.is_terminal():
+            root = Node(s)
+            current = root
+            while not current.state.is_terminal():
                 action = current.get_random_valid_action()
-                current = current.change_state(action)
-                q.append(current)
-            outcome = current.terminal_utility()
+                current = current.move(action)
+            outcome = current.state.terminal_utility()
             if outcome == 1:
                 o = 0 #Win
             elif outcome == 0:
                 o = 1 #Lose
             else:
                 o = 2 #Draw
-            for state in q:
-                if state not in data:
-                    data[state] = [0,0,0]
-                data[state][o] += 1
-    return data
+            data[s][o] += 1
+    return "\n".join([str(s) + " " + str(data[s]) for s in data])
 
 def collate(dic1, dic2):
     dic = {}
@@ -73,21 +80,10 @@ if __name__ == "__main__":
         d = file.readlines()
     
     pool = multiprocessing.Pool(processes = NUM_PROCESSES)
-    data = pool.starmap(generate_train, zip([random.sample(d, NUM_NODES) for i in range(NUM_PROCESSES)], range(NUM_PROCESSES)))
-
-    while len(data) > 1:
-        n = len(data)
-        print(f"Collating {len(data)}", flush=True)
-        pool = multiprocessing.Pool(processes = n//2)
-        data = pool.starmap(collate, zip(data[:n//2], data[n//2:]))
-    
-    collected_data = data[0]
-    towrite = []
-    for s in collected_data:
-        if sum(collected_data[s]) > THRESHOLD:
-            towrite.append(str(s) + " " + str(collected_data[s]))
+    samples = random.sample(d, NUM_NODES * NUM_PROCESSES)
+    data = pool.starmap(generate_train, zip([samples[i*NUM_NODES:(i+1)*NUM_NODES] for i in range(NUM_PROCESSES)], range(NUM_PROCESSES)))
 
     with open("datagen/train.out", "w+") as file:
-        file.write("\n".join(towrite))
+        file.write("\n".join(data))
 
     print("Done!")
