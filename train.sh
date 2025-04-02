@@ -4,7 +4,7 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --mem=8gb
-#SBATCH --gpus=a100-80
+#SBATCH --gpus=h100-96
 #SBATCH --time=00:30:00
 #SBATCH -x xgpi0
 #SBATCH --output=result.slurmlog

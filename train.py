@@ -80,7 +80,7 @@ for t in range(epochs):
 
     print(f"Train loss: {train_loss}. Test loss: {test_loss}")
 
-    if test_loss - train_loss > 0.1:
+    if test_loss - train_loss > 0.05:
         print(f"Overfitting")
         break
 
