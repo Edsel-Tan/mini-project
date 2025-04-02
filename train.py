@@ -3,6 +3,11 @@ from torch import nn
 from torch.utils.data import DataLoader, random_split
 from model import NN, BoardDataset
 
+import os
+os.sched_setaffinity(0, range(os.cpu_count()))
+print(os.cpu_count())
+import multiprocessing
+
 print("Starting")
 
 model = NN()
