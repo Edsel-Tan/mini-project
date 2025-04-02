@@ -5,7 +5,7 @@ from torch import tensor
 from torch import nn
 from collections import OrderedDict
 
-class StudentAgent2:
+class StudentAgent:
         
     coeffs = OrderedDict([('conv.0.weight', tensor([[[[ 1.1140318215e-01,  8.4744200110e-02, -1.0085785389e-01],
           [-5.0818935037e-02, -1.5329013765e-01,  1.4650784433e-01],
@@ -549,7 +549,7 @@ class StudentAgent2:
          [[-3.7424589973e-03,  1.9872887060e-02,  9.8649360240e-02],
           [-4.5476364903e-03,  7.7311031520e-02, -4.0269060992e-03],
           [ 7.3204420507e-02, -5.8494269848e-02, -5.2939709276e-02]]]],
-       device='cuda:0')), ('conv.0.bias', tensor([ 0.3203003705, -0.8683685660,  0.0799942985,  0.3371193409,
+       device='cpu')), ('conv.0.bias', tensor([ 0.3203003705, -0.8683685660,  0.0799942985,  0.3371193409,
         -0.8030500412, -0.1670546830, -0.7372665405, -0.4296796322,
          0.2287745476, -0.1868582070, -0.3806229532, -0.5467113853,
         -0.3784652650,  0.5910041928,  0.3875323534, -0.4219180644,
@@ -557,7 +557,7 @@ class StudentAgent2:
         -0.2436233610, -0.6022886038, -0.1243310273, -0.2189058661,
         -0.6781297326,  0.1681709588, -0.3648526967, -0.4181113243,
         -0.1663197428,  0.4558888674, -0.7773211002,  0.2146496922],
-       device='cuda:0')), ('conv.2.weight', tensor([[[[-5.4990106821e-01, -1.8487156928e-01, -5.2932715416e-01],
+       device='cpu')), ('conv.2.weight', tensor([[[[-5.4990106821e-01, -1.8487156928e-01, -5.2932715416e-01],
           [ 1.1377769709e-01,  3.4891617298e-01,  1.7141351104e-01],
           [-3.0281424522e-02,  5.8541242033e-02, -2.7566680312e-01]],
 
@@ -8811,7 +8811,7 @@ class StudentAgent2:
          [[-1.4872018993e-01,  9.8939701915e-02,  1.6875982285e-02],
           [-3.9097267389e-01,  2.1977147460e-01,  1.3216860592e-01],
           [ 2.7775824070e-02, -2.2313365713e-02,  1.0809728503e-01]]]],
-       device='cuda:0')), ('conv.3.weight', tensor([0.9545440078, 0.7602480650, 0.6926856041, 0.8952540159, 0.9613562226,
+       device='cpu')), ('conv.3.weight', tensor([0.9545440078, 0.7602480650, 0.6926856041, 0.8952540159, 0.9613562226,
         0.8207415938, 0.8613216281, 0.8158711791, 0.7591893673, 0.8341652751,
         0.7866958380, 0.7106067538, 0.8205190897, 0.9598158598, 0.7641045451,
         0.7686646581, 0.7937366962, 0.7351209521, 0.9839686155, 0.7384117842,
@@ -8824,7 +8824,7 @@ class StudentAgent2:
         1.3257005215, 0.8442577124, 0.8361741900, 0.9290151000, 0.7441415191,
         0.8327208161, 1.0119520426, 0.7867623568, 0.9033913612, 0.7695410252,
         0.7696186900, 0.8337812424, 0.8545237184, 0.7802774906],
-       device='cuda:0')), ('conv.3.bias', tensor([-0.4923821986, -0.1776375324, -0.3658266068, -0.0798703581,
+       device='cpu')), ('conv.3.bias', tensor([-0.4923821986, -0.1776375324, -0.3658266068, -0.0798703581,
         -0.1508250833, -0.3375678360, -0.2976022959, -0.4568935931,
         -0.8776854277, -0.4031401277, -0.3388213813, -0.2145385444,
         -0.3763282597, -0.2723655701, -0.8267829418, -0.8055715561,
@@ -8840,7 +8840,7 @@ class StudentAgent2:
         -0.7383307219, -0.5209800005, -0.4987727404, -0.5177293420,
          0.0430904664, -0.5895556808, -0.4545612931, -0.4991263747,
         -0.4732293785, -0.1612778455, -0.7470425367, -0.5178523064],
-       device='cuda:0')), ('conv.3.running_mean', tensor([-1.7073284388, -1.5996223688,  1.6876658201, -1.2113620043,
+       device='cpu')), ('conv.3.running_mean', tensor([-1.7073284388, -1.5996223688,  1.6876658201, -1.2113620043,
          0.5199819803,  0.4015509486,  0.4158421755, -2.5576856136,
         -1.3429310322, -3.2448146343, -1.4306052923, -1.5170145035,
          0.8088706136, -1.6962039471, -0.3474084735, -0.2535479069,
@@ -8856,7 +8856,7 @@ class StudentAgent2:
         -0.9147172570, -1.8153406382, -0.5022482276, -0.8136659265,
         -1.8933808804, -2.1380503178, -0.3458202183, -0.6689679623,
         -1.0819076300, -0.4065021574, -1.2719627619, -2.3439812660],
-       device='cuda:0')), ('conv.3.running_var', tensor([2.7481920719, 2.2726883888, 2.6280481815, 3.6333220005, 3.2547726631,
+       device='cpu')), ('conv.3.running_var', tensor([2.7481920719, 2.2726883888, 2.6280481815, 3.6333220005, 3.2547726631,
         3.8378536701, 4.3613324165, 2.4401946068, 1.9897394180, 3.7036910057,
         2.7814404964, 2.8542978764, 3.2329123020, 4.2649044991, 2.1466107368,
         2.5857388973, 2.1146731377, 2.4031910896, 2.8259706497, 2.3118178844,
@@ -8869,7 +8869,7 @@ class StudentAgent2:
         5.5379586220, 2.4530410767, 2.5890231133, 2.6494853497, 2.1831903458,
         2.1651234627, 2.7882957458, 2.4752171040, 2.2603919506, 2.1152522564,
         2.1572144032, 2.7455739975, 2.3477346897, 2.3265433311],
-       device='cuda:0')), ('conv.3.num_batches_tracked', tensor(62480, device='cuda:0')), ('conv.5.weight', tensor([[[[-3.6661472404e-04, -9.7687123343e-03, -3.6967955530e-02],
+       device='cpu')), ('conv.3.num_batches_tracked', tensor(62480, device='cpu')), ('conv.5.weight', tensor([[[[-3.6661472404e-04, -9.7687123343e-03, -3.6967955530e-02],
           [-2.9764741659e-02,  6.3166702166e-03, -5.4013304412e-02],
           [-3.3300463110e-02, -5.0157561898e-02, -4.0630459785e-02]],
 
@@ -17091,7 +17091,7 @@ class StudentAgent2:
          [[-6.7945674527e-04, -5.8515173197e-01, -3.5775229335e-02],
           [ 1.2779580057e-01,  3.4703823924e-01,  2.5086130947e-02],
           [-3.8750201464e-01, -1.5783671290e-02,  1.7586739361e-01]]]],
-       device='cuda:0')), ('conv.5.bias', tensor([-0.0675962567, -0.0866852105, -0.1039340645, -0.0254622251,
+       device='cpu')), ('conv.5.bias', tensor([-0.0675962567, -0.0866852105, -0.1039340645, -0.0254622251,
         -0.1319095343,  0.1654784679, -0.0344478860, -0.0594680756,
         -0.1648375541,  0.1163254231, -0.0371925086,  0.5465655923,
         -0.0504837334, -0.0574742146, -0.0381473303, -0.0696070045,
@@ -17099,7 +17099,7 @@ class StudentAgent2:
         -0.1255587488, -0.1844061762, -0.1536944807,  0.0831538662,
          0.5341029167, -0.1196486726, -0.1030174643, -0.1126822904,
         -0.0771488473, -0.2067370266, -0.1065103188, -0.1026499867],
-       device='cuda:0')), ('conv.7.weight', tensor([[[[-0.0845512226]],
+       device='cpu')), ('conv.7.weight', tensor([[[[-0.0845512226]],
 
          [[-0.0267529748]],
 
@@ -17161,7 +17161,7 @@ class StudentAgent2:
 
          [[-0.0165221170]],
 
-         [[ 0.1731103063]]]], device='cuda:0')), ('conv.7.bias', tensor([0.0132702272], device='cuda:0')), ('conv.9.weight', tensor([[-0.2842284143, -0.1017877832, -0.1991886795, -0.0593797043,
+         [[ 0.1731103063]]]], device='cpu')), ('conv.7.bias', tensor([0.0132702272], device='cpu')), ('conv.9.weight', tensor([[-0.2842284143, -0.1017877832, -0.1991886795, -0.0593797043,
          -0.1220416725, -0.0364104882, -0.1128909364, -0.1026643813,
          -0.1401812881, -0.2656105757,  0.0486579947,  0.4453500509,
          -0.0860547498,  0.0136464238,  0.3235512376, -0.0680608153,
@@ -17181,60 +17181,67 @@ class StudentAgent2:
           0.3062844276, -0.0634731129,  0.0324457027,  0.4838514924,
           0.0055309576,  0.0347373001,  0.0739659965,  0.0535158962,
           0.0362030156,  0.0681614503,  0.0156174023,  0.0303692501,
-          0.1652299762]], device='cuda:0')), ('conv.9.bias', tensor([-0.0440102257], device='cuda:0'))])
+          0.1652299762]], device='cpu')), ('conv.9.bias', tensor([-0.0440102257], device='cpu'))])
 
 
 
     def StateToTensor(state : State):
-        board_tensor = np.zeros((3, 9, 9,))
-        player = state.fill_num
-        
-        if state.prev_local_action and board_status(state.board[state.prev_local_action[0]][state.prev_local_action[1]]) == 0:
-            x, y = state.prev_local_action
-            board_tensor[0][x*3:(x+1)*3,y*3:(y+1)*3] = (state.board[x][y] == 0)
-            
-        else:
-            for i in range(3):
-                for j in range(3):
-                    if board_status(state.board[i][j]) == 0:
-                        board_tensor[0][i*3:(i+1)*3,j*3:(j+1)*3] = (state.board[i][j] == 0)
+      board_tensor = np.zeros((4, 9, 9,))
+      player = state.fill_num
+      local_board = get_local_board_status(state.board)
+      
+      if state.prev_local_action and local_board[state.prev_local_action[0]][state.prev_local_action[1]] == 0:
+          x, y = state.prev_local_action
+          board_tensor[0][x*3:(x+1)*3,y*3:(y+1)*3] = (state.board[x][y] == 0)
+          
+      else:
+          for i in range(3):
+              for j in range(3):
+                  if local_board[i][j] == 0:
+                      board_tensor[0][i*3:(i+1)*3,j*3:(j+1)*3] = (state.board[i][j] == 0)
 
-        for i in range(3):
-            for j in range(3):
-                board_tensor[1][i*3:(i+1)*3,j*3:(j+1)*3] = (state.board[i][j] == player)
-                board_tensor[2][i*3:(i+1)*3,j*3:(j+1)*3] = (state.board[i][j] == 3-player)
+      for i in range(3):
+          for j in range(3):
+              board_tensor[1][i*3:(i+1)*3,j*3:(j+1)*3] = (state.board[i][j] == player)
+              board_tensor[2][i*3:(i+1)*3,j*3:(j+1)*3] = (state.board[i][j] == 3-player)
 
-        return torch.tensor(board_tensor, dtype=torch.float32).unsqueeze(0)
+      for a in range(3):
+          for b in range(3):
+              for c in range(3):
+                  for d in range(3):
+                      board_tensor[3][a*3+c][b*3+d] = local_board[c][d]
+
+      return torch.tensor(board_tensor, dtype=torch.float32).unsqueeze(0)
 
     class NN(nn.Module):
-        def __init__(self):
-            super().__init__()
-            self.conv = nn.Sequential(
-                nn.Conv2d(3, 32, kernel_size = 3, padding = 1, bias = True),
-                nn.ReLU(),
-                nn.Conv2d(32, 64, kernel_size = 3, padding = 1, bias = False),
-                nn.BatchNorm2d(64),
-                nn.ReLU(),
-                # nn.Conv2d(64, 64, kernel_size = 3, padding = 1, bias=True),
-                # nn.ReLU(),
-                nn.Conv2d(64, 32, kernel_size = 3, padding = 1, bias=True),
-                nn.ReLU(),
-                nn.Conv2d(32, 1, kernel_size = 1, padding = 0, bias=True),
-                nn.Flatten(),
-                nn.Linear(81, 1),
-                nn.Tanh(),
-            )
+      def __init__(self):
+          super().__init__()
+          self.conv = nn.Sequential(
+              nn.Conv2d(4, 32, kernel_size = 3, padding = 1, bias = True),
+              nn.ReLU(),
+              nn.Conv2d(32, 64, kernel_size = 3, padding = 1, bias = False),
+              nn.BatchNorm2d(64),
+              nn.ReLU(),
+              # nn.Conv2d(64, 64, kernel_size = 3, padding = 1, bias=True),
+              # nn.ReLU(),
+              nn.Conv2d(64, 32, kernel_size = 3, padding = 1, bias=True),
+              nn.ReLU(),
+              nn.Conv2d(32, 1, kernel_size = 1, padding = 0, bias=True),
+              nn.Flatten(),
+              nn.Linear(81, 1),
+              nn.Tanh(),
+          )
 
-        def forward(self, x) -> tensor:
-            return self.conv(x)
+      def forward(self, x):
+          return self.conv(x)
 
 
     def __init__(self, depth = 4):
         """Instantiates your agent.
         """
         self.depth = depth
-        self.model = StudentAgent2.NN()
-        self.model.load_state_dict(StudentAgent2.coeffs)
+        self.model = StudentAgent.NN()
+        self.model.load_state_dict(StudentAgent.coeffs)
         pass
 
     def choose_action(self, state: State) -> Action:
@@ -17256,9 +17263,9 @@ class StudentAgent2:
         if state.is_terminal():
             return time.time() - start_time, (state.terminal_utility() - 0.5) * 2, None
         if time_left < 0:
-            return time.time() - start_time, m * self.model.forward(StudentAgent2.StateToTensor(state)).squeeze().item(), None
+            return time.time() - start_time, m * self.model.forward(StudentAgent.StateToTensor(state)).squeeze().item(), None
         if depth == 0:
-            value = m * self.model.forward(StudentAgent2.StateToTensor(state)).squeeze().item()
+            value = m * self.model.forward(StudentAgent.StateToTensor(state)).squeeze().item()
             end_time = time.time()
             return end_time - start_time, value, None
         

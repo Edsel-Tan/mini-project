@@ -5,6 +5,9 @@ from torch import tensor
 from torch import nn
 from collections import OrderedDict
 import numpy as np
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"]=""
 
 # from dummy import StudentAgent
 from submission import StudentAgent
@@ -19,6 +22,7 @@ def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
     while not state.is_terminal():
         turn_count += 1
         print(f"Starting turn {turn_count}")
+        print(state, flush=True)
         random_action = state.get_random_valid_action()
         if state.fill_num == 2:
             start_time = time.time()

@@ -20,7 +20,7 @@ train_size = int(0.8 * len(dataset))
 test_size = len(dataset) - train_size
 
 train, test = random_split(dataset, [train_size, test_size])
-train_dataloader = DataLoader(train, batch_size = 64, shuffle = True)
+train_dataloader = DataLoader(train, batch_size = 512, shuffle = True)
 test_dataloader = DataLoader(test)
 
 criterion = nn.MSELoss()
@@ -43,7 +43,7 @@ def train(dataloader, model, loss_fn, optimizer):
 
         if batch % 100 == 0:
             loss, current = loss.item(), (batch + 1) * len(X)
-            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
+            print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]", flush=True)
     return total_loss / len(dataloader)
 
 def test(dataloader, model, loss_fn):
@@ -58,7 +58,7 @@ def test(dataloader, model, loss_fn):
             pred = model(X)
             test_loss += loss_fn(pred, y).item()
     test_loss /= num_batches
-    print(f"Test Error: \n Avg loss: {test_loss:>8f} \n")
+    print(f"Test Error: \n Avg loss: {test_loss:>8f} \n", flush=True)
     return test_loss
 
 model.to(device)

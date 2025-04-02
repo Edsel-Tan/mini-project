@@ -88,6 +88,7 @@ def g(i):
     with open(f"datagen/stage1-ncmts/depth{i}.txt", "r") as file:
         print(f"loading {i}", flush=True)
         d = file.readlines()
+        d = d[:len(d)//16]
         dr = map(f, d)
 
     for x,j,w,d,l in dr:
@@ -102,7 +103,7 @@ def g(i):
         if w + l == 0:
             v = 0
         else:
-            v = ((w / (w + l)) * 2 - 1) * (d / (d + w + l))
+            v = ((w / (w + l)) * 2 - 1)
         data[x] = (j, v)
 
     print(f"{i} done.", flush=True)
