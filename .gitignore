@@ -4,3 +4,4 @@ datagen/*
 models/*
 test.py
 *.out
+*.slurmlog

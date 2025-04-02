@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --mem=8gb
 #SBATCH --partition=i7-13700
-#SBATCH --time=00:30:00
+#SBATCH --time=03:00:00
 #SBATCH --output=result.slurmlog
 #SBATCH --error=result.slurmlog
 
