@@ -7,8 +7,9 @@ from collections import OrderedDict
 import numpy as np
 
 # from dummy import StudentAgent
-from submission import StudentAgent
-from submission_2 import StudentAgent as StudentAgent2
+# from submission import StudentAgent
+from submission_5 import StudentAgent
+from submission_6 import StudentAgent as StudentAgent2
 
 def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
     timeout_count = 0
@@ -18,7 +19,6 @@ def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
     actions = []
     while not state.is_terminal():
         turn_count += 1
-        print(f"Starting turn {turn_count}")
         random_action = state.get_random_valid_action()
         if state.fill_num == 2:
             start_time = time.time()
@@ -45,16 +45,25 @@ def run(your_agent: StudentAgent, random_agent: StudentAgent, start_num: int):
         actions.append(action)
     if state.terminal_utility() == 1:
         print("You win!")
+        s = 1
     elif state.terminal_utility() == 0:
         print("You lose!")
+        s = -1
     else:
         print("Draw")
+        s = 0
     print(f"Timeout count: {timeout_count}")
     print(f"Invalid count: {invalid_count}")
-    print(actions[0])
+    return s
 
-your_agent = StudentAgent()
-random_agent = StudentAgent2()
+NUM_GAMES = 1
+WAIT_TIME = 2.85
+your_agent = StudentAgent(wait_time=WAIT_TIME)
+random_agent = StudentAgent2(wait_time=WAIT_TIME)
 
-run(your_agent, random_agent, 1)
-run(your_agent, random_agent, 2)
+
+result = 0
+for i in range(NUM_GAMES):
+    result += run(your_agent, random_agent, 1)
+    result += run(your_agent, random_agent, 2)
+print(result)
