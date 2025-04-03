@@ -8,7 +8,7 @@ import multiprocessing
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
 
 NUM_FEATURES = 4
-SPEED_UP = 4
+SPEED_UP = 64
 
 def StateToTensor(state : State):
     board_tensor = np.zeros((NUM_FEATURES, 9, 9,))
@@ -65,12 +65,11 @@ def f(s):
     s = s[15:].split()
     board = np.array([[[[0 for i in range(3)]for j in range(3)] for k in range(3)] for l in range(3)])
     x = s[0]
-    w = int(s[2])
-    d = int(s[3])
-    l = int(s[4][:-1])
+    t = int(s[1])
+    v = float(s[2][:-1])
     fill_num = int(x[90])
     if fill_num == 2:
-        w,l = l,w
+        v = -v
     prev_local_action = int(x[91])
     if prev_local_action == 9:
         prev_local_action = None
@@ -81,32 +80,27 @@ def f(s):
             for c in range(3):
                 for d in range(3):
                     board[a][b][c][d] = int(x[a*27+b*9+c*3+d])
-    return x,State(fill_num=fill_num, prev_local_action = prev_local_action, board=board),w,d,l
+    return x,State(fill_num=fill_num, prev_local_action = prev_local_action, board=board),t,v
 
 def g(i):
     data = {}
     if i < 10:
         i = "0" + str(i)
-    with open(f"datagen/stage1-mcts/depth{i}.txt", "r") as file:
+    with open(f"datagen/stage2-nmcts/depth{i}.txt", "r") as file:
         print(f"loading {i}", flush=True)
         d = file.readlines()
         d = d[::SPEED_UP]
         dr = map(f, d)
 
-    for x,j,w,d,l in dr:
+    for x,s,t,v in dr:
         if x not in data:
-            data[x] = [j,0,0,0]
-        data[x][1] += w
-        data[x][2] += d
-        data[x][3] += l
+            data[x] = [s,0,0]
+        data[x][1] += t
+        data[x][2] += t * v
 
     for x in data:
-        j,w,d,l = data[x]
-        if w + l == 0:
-            v = 0
-        else:
-            v = ((w / (w + l)) * 2 - 1)
-        data[x] = (j, v)
+        s,t,tv = data[x]
+        data[x] = (s, tv/t)
 
     print(f"{i} done.", flush=True)
     return data

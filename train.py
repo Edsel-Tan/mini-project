@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 from torch.utils.data import DataLoader, random_split
-from model_2 import NN, BoardDataset
+from model_4 import NN, BoardDataset
 
 import os
 os.sched_setaffinity(0, range(os.cpu_count()))
@@ -11,6 +11,8 @@ import multiprocessing
 print("Starting")
 
 model = NN()
+# model = torch.load("best_loss_model.pth", weights_only = False)
+# model.eval()
 dataset = BoardDataset()
 
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
@@ -20,7 +22,7 @@ train_size = int(0.8 * len(dataset))
 test_size = len(dataset) - train_size
 
 train, test = random_split(dataset, [train_size, test_size])
-train_dataloader = DataLoader(train, batch_size = 512, shuffle = True)
+train_dataloader = DataLoader(train, batch_size = 1024, shuffle = True)
 test_dataloader = DataLoader(test)
 
 criterion = nn.MSELoss()
@@ -62,8 +64,7 @@ def test(dataloader, model, loss_fn):
     return test_loss
 
 model.to(device)
-epochs = 50
-patience = 0
+epochs = 100
 best_loss = float('inf')
 
 test(test_dataloader, model, criterion)
@@ -74,21 +75,9 @@ for t in range(epochs):
 
     if test_loss < best_loss:
         best_loss = test_loss
-        patience = 0
         torch.save(model, "best_loss_model.pth")
 
-    else:
-        patience += 1
-
-    if patience >= 5:
-        print(f"Overfitting")
-        break
-
     print(f"Train loss: {train_loss}. Test loss: {test_loss}")
-
-    if test_loss - train_loss > 0.05:
-        print(f"Overfitting")
-        break
 
 print("Done!")
 torch.save(model, "model.pth")

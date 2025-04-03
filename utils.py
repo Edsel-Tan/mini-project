@@ -255,3 +255,7 @@ def load_data() -> list[tuple[State, float]]:
         state = State(board=board, fill_num=fill_num, prev_local_action=prev_local_action)
         new_data.append((state, utility))
     return new_data
+
+def load_p_data() -> list[tuple[State, float]]:
+    with open("datagen/data.pkl", "rb") as f:
+        return pickle.load(f)

@@ -8,7 +8,7 @@ import multiprocessing
 device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
 
 NUM_FEATURES = 4
-SPEED_UP = 4
+SPEED_UP = 2
 
 def StateToTensor(state : State):
     board_tensor = np.zeros((NUM_FEATURES, 9, 9,))
@@ -44,16 +44,15 @@ class NN(nn.Module):
         self.conv = nn.Sequential(
             nn.Conv2d(NUM_FEATURES, 16, kernel_size = 3, padding = 1, bias = True),
             nn.ReLU(),
-            nn.Conv2d(16, 32, kernel_size = 3, padding = 1, bias = False),
-            nn.BatchNorm2d(32),
+            nn.Conv2d(16, 64, kernel_size = 3, padding = 1, bias = False),
             nn.ELU(),
-            nn.Conv2d(32, 16, kernel_size = 3, padding = 1, bias=False),
+            nn.Conv2d(64, 32, kernel_size = 3, padding = 1, bias=False),
             nn.ELU(),
-            nn.Conv2d(16, 1, kernel_size = 1, padding = 0, bias=True),
+            nn.Conv2d(32, 4, kernel_size = 1, padding = 0, bias=True),
             nn.ReLU(),
             nn.Flatten(),
-            nn.Linear(81, 32),
-            nn.ReLU(),
+            nn.Linear(4*9*9, 32),
+            nn.ELU(),
             nn.Linear(32, 1),
             nn.Tanh(),
         )
@@ -65,12 +64,11 @@ def f(s):
     s = s[15:].split()
     board = np.array([[[[0 for i in range(3)]for j in range(3)] for k in range(3)] for l in range(3)])
     x = s[0]
-    w = int(s[2])
-    d = int(s[3])
-    l = int(s[4][:-1])
+    t = int(s[1])
+    v = float(s[2][:-1])
     fill_num = int(x[90])
     if fill_num == 2:
-        w,l = l,w
+        v = -v
     prev_local_action = int(x[91])
     if prev_local_action == 9:
         prev_local_action = None
@@ -81,35 +79,36 @@ def f(s):
             for c in range(3):
                 for d in range(3):
                     board[a][b][c][d] = int(x[a*27+b*9+c*3+d])
-    return x,State(fill_num=fill_num, prev_local_action = prev_local_action, board=board),w,d,l
+    return x,State(fill_num=fill_num, prev_local_action = prev_local_action, board=board),t,v
 
 def g(i):
     data = {}
     if i < 10:
         i = "0" + str(i)
-    with open(f"datagen/stage1-mcts/depth{i}.txt", "r") as file:
+    with open(f"datagen/stage2-nmcts/depth{i}.txt", "r") as file:
         print(f"loading {i}", flush=True)
         d = file.readlines()
         d = d[::SPEED_UP]
         dr = map(f, d)
 
-    for x,j,w,d,l in dr:
+    for x,s,t,v in dr:
         if x not in data:
-            data[x] = [j,0,0,0]
-        data[x][1] += w
-        data[x][2] += d
-        data[x][3] += l
+            data[x] = [s,0,0]
+        data[x][1] += t
+        data[x][2] += t * v
 
     for x in data:
-        j,w,d,l = data[x]
-        if w + l == 0:
-            v = 0
-        else:
-            v = ((w / (w + l)) * 2 - 1)
-        data[x] = (j, v)
+        s,t,tv = data[x]
+        data[x] = (s, tv/t)
 
     print(f"{i} done.", flush=True)
     return data
+
+def h(d):
+    s,v = d
+    v = v if s.fill_num == 1 else -v
+    s = StateToTensor(s)
+    return s, torch.tensor(v).unsqueeze(0)
 
 class BoardDataset(Dataset):
 
@@ -123,16 +122,16 @@ class BoardDataset(Dataset):
         for data in datas:
             self.data.extend(data.values())
         print(f"Init done.", flush=True)
+
+        self.data = list(map(h, self.data))
+        print(f"Map done.", flush=True)
                 
     
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
-        state = self.data[idx][0]
-        value = torch.tensor(self.data[idx][1] if self.data[idx][0].fill_num == 1 else -self.data[idx][1], dtype=torch.float32).unsqueeze(0)
-        
-        return StateToTensor(state), value
+        return self.data[idx]
         
 
                 

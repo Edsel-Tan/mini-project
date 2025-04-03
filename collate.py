@@ -3,6 +3,7 @@ from utils import State
 import os
 os.sched_setaffinity(0, range(os.cpu_count()))
 import numpy as np
+SPEED_UP = 4
 
 def f(s):
     s = s[15:].split()
@@ -32,7 +33,7 @@ def g(i):
         i = "0" + str(i)
     with open(f"datagen/stage1-mcts/depth{i}.txt", "r") as file:
         print(f"loading {i}", flush=True)
-        d = file.readlines()
+        d = file.readlines()[::SPEED_UP]
         dr = map(f, d)
 
     for x,j,w,d,l in dr:
